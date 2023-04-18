@@ -1,6 +1,7 @@
 CREATE TABLE fetcherjob 
 (
     id SERIAL PRIMARY KEY,
+    created TIMESTAMP NOT NULL,
     report_title TEXT NOT NULL,
     search_engine VARCHAR(50),
     location VARCHAR(250),
