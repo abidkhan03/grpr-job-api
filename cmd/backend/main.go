@@ -9,8 +9,6 @@ import (
 	"github.com/grpr-job-api/internal/server"
 	"github.com/grpr-job-api/internal/service"
 	"github.com/grpr-job-api/shared"
-	"github.com/jackc/pgx/v4"
-	"github.com/jackc/pgx/v4/pgxpool"
 )
 
 func main() {
@@ -28,20 +26,11 @@ func main() {
 	}
 
 	// database
-	dbCfg, err := pgxpool.ParseConfig(shared.GetDBConnectionString())
+	db, err := repo.New(shared.GetDBConnectionString())
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	dbCfg.ConnConfig.LogLevel = pgx.LogLevelError
-
-	conn, err := pgxpool.ConnectConfig(ctx, dbCfg)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer conn.Close()
-
-	db := repo.New(conn)
+	defer db.Close()
 
 	// service
 	svc := service.New(db)

@@ -13,19 +13,19 @@ type FetcherJob struct {
 	svc *service.Service
 }
 
-func NewCategory(svc *service.Service) *FetcherJob {
+func NetFetcher(svc *service.Service) *FetcherJob {
 	return &FetcherJob{svc: svc}
 }
 
 func (api *FetcherJob) Routes(r chi.Router) {
 	r.Route("/fetcher", func(r chi.Router) {
-		r.Get("/", api.GetAllJobs)
+		r.Get("/", api.GetFetcherJobs)
 	})
 }
 
-func (api *FetcherJob) GetAllJobs(w http.ResponseWriter, r *http.Request) {
+func (api *FetcherJob) GetFetcherJobs(w http.ResponseWriter, r *http.Request) {
 	// fetch jobs from fetcherjob table
-	jobs, err := api.svc.GetAllJobs(r.Context())
+	jobs, err := api.svc.GetFetcherJobs(r.Context())
 	if err != nil {
 		log.Println(err)
 		respondErrorMessage(w, http.StatusInternalServerError, err.Error())
