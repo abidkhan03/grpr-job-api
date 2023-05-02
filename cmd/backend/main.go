@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	ctx, cancel := context.WithCancel(context.Background())
+	_, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
 	// config
@@ -37,10 +37,16 @@ func main() {
 
 	// apis
 	pingApi := api.NewPing(svc)
+	fetcherApi := api.NewFetcher(svc)
+	grouperApi := api.NewGrouper(svc)
+	combinedApi := api.NewCombinedJob(svc)
 
 	// server
 	srv := server.New(cfg.HttpPort,
 		pingApi,
+		fetcherApi,
+		grouperApi,
+		combinedApi,
 	)
 
 	err = srv.Start()

@@ -13,7 +13,7 @@ type FetcherJob struct {
 	svc *service.Service
 }
 
-func NetFetcher(svc *service.Service) *FetcherJob {
+func NewFetcher(svc *service.Service) *FetcherJob {
 	return &FetcherJob{svc: svc}
 }
 

@@ -8,6 +8,6 @@ import (
 
 func (r *Repo) GetFetcherJobs(ctx context.Context) ([]*dao.FetcherJob, error) {
 	var job []*dao.FetcherJob
-	err := r.db(ctx).Find(&job).Error
+	err := r.db(ctx).Table("fetcherjob").Find(&job).Error
 	return job, wrap(err)
 }
