@@ -18,9 +18,9 @@ func NetFetcher(svc *service.Service) *FetcherJob {
 }
 
 func (api *FetcherJob) Routes(r chi.Router) {
-	r.Route("/fetcher", func(r chi.Router) {
-		r.Get("/", api.GetFetcherJobs)
-	})
+	r.Get("/fetcher", api.GetFetcherJobs)
+	// r.Route("/fetcher", func(r chi.Router) {
+	// })
 }
 
 func (api *FetcherJob) GetFetcherJobs(w http.ResponseWriter, r *http.Request) {
