@@ -9,12 +9,10 @@ import (
 	"github.com/grpr-job-api/internal/server"
 	"github.com/grpr-job-api/internal/service"
 	"github.com/grpr-job-api/shared"
-	"github.com/jackc/pgx/v4"
-	"github.com/jackc/pgx/v4/pgxpool"
 )
 
 func main() {
-	ctx, cancel := context.WithCancel(context.Background())
+	_, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
 	// config
@@ -28,30 +26,27 @@ func main() {
 	}
 
 	// database
-	dbCfg, err := pgxpool.ParseConfig(shared.GetDBConnectionString())
+	db, err := repo.New(shared.GetDBConnectionString())
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	dbCfg.ConnConfig.LogLevel = pgx.LogLevelError
-
-	conn, err := pgxpool.ConnectConfig(ctx, dbCfg)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer conn.Close()
-
-	db := repo.New(conn)
+	defer db.Close()
 
 	// service
 	svc := service.New(db)
 
 	// apis
 	pingApi := api.NewPing(svc)
+	fetcherApi := api.NewFetcher(svc)
+	grouperApi := api.NewGrouper(svc)
+	combinedApi := api.NewCombinedJob(svc)
 
 	// server
 	srv := server.New(cfg.HttpPort,
 		pingApi,
+		fetcherApi,
+		grouperApi,
+		combinedApi,
 	)
 
 	err = srv.Start()
