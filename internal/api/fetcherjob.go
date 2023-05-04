@@ -64,17 +64,9 @@ func (api *FetcherJob) AddFetcherJob(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// parse created time
-	createdTime, err := time.Parse("2006-01-02", req.Created.Format("2006-01-02"))
-	if err != nil {
-		log.Println(err)
-		respondErrorMessage(w, http.StatusBadRequest, "invalid created time")
-		return
-	}
-
 	// create new job
 	job := &dao.FetcherJob{
-		Created:      createdTime,
+		Created:      time.Now().UTC(),
 		ReportTitle:  req.ReportTitle,
 		SearchEngine: req.SearchEngine,
 		Location:     req.Location,

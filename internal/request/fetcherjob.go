@@ -16,9 +16,6 @@ type FetcherJob struct {
 }
 
 func (f *FetcherJob) Validate() error {
-	if f.Created.IsZero() {
-		return errors.BadRequest("Created date is required")
-	}
 	if f.ReportTitle == "" {
 		return errors.BadRequest("Report title is required")
 	}
