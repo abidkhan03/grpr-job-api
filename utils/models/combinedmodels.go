@@ -1,17 +1,9 @@
 package models
 
-type Rank_ struct {
-	ClientRankingUrl      string
-	ClientRankingPosition int
-	ClientUrlRankingCount int
-	CurrentTraffic        float64
-	CurrentValue          float64
-}
-
-var Rank = Rank_{
-	ClientRankingUrl:      "",
-	ClientRankingPosition: 101,
-	ClientUrlRankingCount: 0,
-	CurrentTraffic:        0.0,
-	CurrentValue:          0.0,
+type Rank struct {
+	ClientRankingUrl      string  `default:""`
+	ClientRankingPosition int     `default:"101"`
+	ClientUrlRankingCount int     `default:"0"`
+	CurrentTraffic        float64 `default:"0.0"`
+	CurrentValue          float64 `default:"0.0"`
 }

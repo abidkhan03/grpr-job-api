@@ -1,27 +1,25 @@
 package constants
 
 import (
-	"fmt"
 	"os"
 	"strconv"
 )
 
-func getConfig(key string, defaultValue string) string {
-	value, ok := os.LookupEnv(key)
-	if !ok {
-		value = defaultValue
+var CeleryBrokerURL = getEnv("CELERY_BROKER_URL", "amqp://guest:guest@localhost:5672//")
+var SnapshotsCount = getIntEnv("SNAP_SHOT_COUNT", 100)
+
+func getEnv(key, fallback string) string {
+	if value, ok := os.LookupEnv(key); ok {
+		return value
 	}
-	return value
+	return fallback
 }
 
-func CeleryConstants() {
-	celeryBrokerURL := getConfig("CELERY_BROKER_URL", "amqp://guest:guest@localhost:5672//")
-	snapshotsCount, err := strconv.Atoi(getConfig("SNAP_SHOT_COUNT", "100"))
-	if err != nil {
-		fmt.Println("Error parsing SNAP_SHOT_COUNT:", err)
-		return
+func getIntEnv(key string, fallback int) int {
+	if strValue, ok := os.LookupEnv(key); ok {
+		if value, err := strconv.Atoi(strValue); err == nil {
+			return value
+		}
 	}
-
-	fmt.Println("CELERY_BROKER_URL:", celeryBrokerURL)
-	fmt.Println("SNAP_SHOT_COUNT:", snapshotsCount)
+	return fallback
 }

@@ -7,6 +7,7 @@ require (
 	github.com/go-chi/cors v1.2.1
 	github.com/homelight/json v1.18.5
 	github.com/joho/godotenv v1.5.1
+	github.com/kelseyhightower/envconfig v1.4.0
 	gorm.io/driver/postgres v1.0.8
 	gorm.io/gorm v1.21.4
 )
