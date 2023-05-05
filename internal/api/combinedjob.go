@@ -13,7 +13,7 @@ type CombinedJob struct {
 	svc *service.Service
 }
 
-func NewCombined(svc *service.Service) *CombinedJob {
+func NewCombinedJob(svc *service.Service) *CombinedJob {
 	return &CombinedJob{svc: svc}
 }
 
